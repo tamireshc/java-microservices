@@ -1,6 +1,7 @@
 package com.example.mscartoes.service;
 
 import com.example.mscartoes.model.Cartao;
+import com.example.mscartoes.model.ClienteCartao;
 import com.example.mscartoes.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
