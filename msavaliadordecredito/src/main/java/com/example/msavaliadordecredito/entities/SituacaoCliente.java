@@ -13,7 +13,8 @@ public class SituacaoCliente {
   private DadosCliente cliente;
   private List<CartaoCliente> cartoes;
 
-  public SituacaoCliente(DadosCliente cliente) {
+  public SituacaoCliente(DadosCliente cliente, List<CartaoCliente> cartoes) {
     this.cliente = cliente;
+    this.cartoes = cartoes;
   }
 }
