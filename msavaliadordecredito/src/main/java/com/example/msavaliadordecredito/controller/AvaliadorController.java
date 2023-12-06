@@ -1,10 +1,9 @@
 package com.example.msavaliadordecredito.controller;
 
-import com.example.msavaliadordecredito.entities.DadosAvaliacao;
-import com.example.msavaliadordecredito.entities.RetornoAvaliacaoCliente;
-import com.example.msavaliadordecredito.entities.SituacaoCliente;
+import com.example.msavaliadordecredito.entities.*;
 import com.example.msavaliadordecredito.exceptions.DadosClienteNotFoundException;
 import com.example.msavaliadordecredito.exceptions.ErroComunicacaoMicroservicesException;
+import com.example.msavaliadordecredito.exceptions.ErroSolicitacaoCartaiException;
 import com.example.msavaliadordecredito.service.AvaliadorCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,6 +47,17 @@ public class AvaliadorController {
             return ResponseEntity.notFound().build();
         } catch (ErroComunicacaoMicroservicesException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PostMapping("solicitacoes-cartao")
+    public ResponseEntity solicitarCartao(@RequestBody DadosSolicitacaoEmissaoCartao dados){
+        try{
+            ProtocoloSolicitacaoCartao protocoloSolicitacaoCartao = avaliadorCreditoService.solicitarEmissaoCartao(dados);
+            System.out.println("enviado cartao");
+            return ResponseEntity.ok(protocoloSolicitacaoCartao);
+
+        }catch (ErroSolicitacaoCartaiException e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
