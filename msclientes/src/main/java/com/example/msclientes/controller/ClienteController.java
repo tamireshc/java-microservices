@@ -3,6 +3,9 @@ package com.example.msclientes.controller;
 import com.example.msclientes.entities.ClienteSaveRequest;
 import com.example.msclientes.model.Cliente;
 import com.example.msclientes.service.ClienteService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,6 +20,7 @@ public class ClienteController {
 
 
   private final ClienteService service;
+  private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
 
   public ClienteController(ClienteService service) {
     this.service = service;
@@ -24,7 +28,11 @@ public class ClienteController {
 
 
   @GetMapping
-  public String stattus() {
+  public String status() {
+      log.info("emitindo log");
+      log.info("informação:{}", "teste info");
+      log.error("error:{}", "teste erro");
+      log.warn("warn:{}", "teste warn");
     return "ok";
 
   }
