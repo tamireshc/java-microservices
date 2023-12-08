@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
-@NoArgsConstructor
 public class Cartao {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +25,7 @@ public class Cartao {
     this.bandeira = bandeira;
     this.renda = renda;
     this.limiteBasico = limiteBasico;
+  }
+  public Cartao() {
   }
 }

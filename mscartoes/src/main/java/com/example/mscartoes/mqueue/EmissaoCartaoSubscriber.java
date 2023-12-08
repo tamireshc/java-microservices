@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 
 public class EmissaoCartaoSubscriber {
@@ -34,14 +36,18 @@ public class EmissaoCartaoSubscriber {
         var mapper = new ObjectMapper();
         try {
             DadosSolicitacaoEmissaoCartao dados = mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
-            Cartao cartao = cartaoRepository.findById(dados.getIdCartao()).orElseThrow();
+            Optional<Cartao> cartao = cartaoRepository.findById(dados.getIdCartao());
             ClienteCartao clienteCartao = new ClienteCartao();
-            clienteCartao.setCartao(cartao);
-            clienteCartao.setCpf(dados.getCpf());
-            clienteCartao.setLimite(dados.getLimiteLiberado());
-            clienteCartaoRepository.save(clienteCartao);
+            if (cartao.isPresent()){
+                Cartao valor = cartao.get();
+                clienteCartao.setCartao(valor);
+                clienteCartao.setCpf(dados.getCpf());
+                clienteCartao.setLimite(dados.getLimiteLiberado());
+                clienteCartaoRepository.save(clienteCartao);
+            }
+
         } catch (JsonProcessingException e) {
-           log.error("erro ao receber solicitacao de emissao de cartao:{}",e.getMessage());
+            log.error("erro ao receber solicitacao de emissao de cartao:{}",e.getMessage());
         }
     }
 }
